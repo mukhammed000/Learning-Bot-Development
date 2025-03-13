@@ -1,9 +1,10 @@
-from telegram.ext import ApplicationBuilder, CommandHandler
+from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
+from telegram import Update
 
 TOKEN = "6766817132:AAH8QcVCpLMDMMuOLU92MmyoRL0reu9IpSI"
 
-async def start(update, context):
-    await update.message.reply_text("Hello! I'm your bot.")
+async def start(update: Update, context: ContextTypes):
+    await update.message.reply_text("This is start")
 
 # Create application and add handlers
 app = ApplicationBuilder().token(TOKEN).build()
