@@ -1,27 +1,21 @@
-from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
-from telegram import Update, KeyboardButton, ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler
+from telegram import KeyboardButton, InlineKeyboardButton, ReplyKeyboardMarkup, Update
 
-Token = "6766817132:AAH8QcVCpLMDMMuOLU92MmyoRL0reu9IpSI"
+TOKEN="6766817132:AAH8QcVCpLMDMMuOLU92MmyoRL0reu9IpSI"
 
-async def ShowMenu(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
-    # Reply Keyboard (Visible on chat screen)
-    keyboard = [[KeyboardButton("This is first button"), KeyboardButton("This is second button")]]
-    reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
+async def Menu(upd: Update, ctx: ContextTypes):
+    keyboards = [[KeyboardButton("This is first button"), KeyboardButton("This is second button")]]
+    reply_keyboard = ReplyKeyboardMarkup(keyboards, resize_keyboard=True)
+    
+    await upd.message.reply_text("Menu", reply_markup=reply_keyboard)
 
-    # Inline Keyboard (Buttons under the message)
-    inline_keyboard = [[InlineKeyboardButton("This is inline keyboard", url="https://www.google.com")]]
-    inline_markup = InlineKeyboardMarkup(inline_keyboard)
+async def Start(upd: Update, ctx: ContextTypes):
+    await upd.message.reply_text("Hello world!")
+    await Menu(upd, ctx)
 
-    await update.message.reply_text("Menu", reply_markup=reply_markup)
-    await update.message.reply_text("Click below:", reply_markup=inline_markup)
-
-async def Start(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_photo(photo=open("image.png", "rb"), caption="Welcome!")  # Make sure the image exists
-    await ShowMenu(update, ctx)
-
-app = ApplicationBuilder().token(Token).build()
-app.add_handler(CommandHandler("start", Start))
+app = ApplicationBuilder().token(TOKEN).build()
+app.add_handler(CommandHandler("Start", Start))
 
 if __name__ == "__main__":
-    print("Bot is running!")
+    print("Bot is running... ")
     app.run_polling()
